@@ -64,5 +64,11 @@
             <artifactId>jbcrypt</artifactId>
             <version>0.3m</version>
         </dependency>
+
+        <dependency>
+            <groupId>betX</groupId>
+            <artifactId>api-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

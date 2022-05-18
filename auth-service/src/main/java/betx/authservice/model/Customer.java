@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -25,4 +26,10 @@ public class Customer {
 
     @OneToOne
     private User user;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Bet> bets;
+
+    @OneToOne
+    private Wallet wallet;
 }

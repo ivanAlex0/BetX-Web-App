@@ -29,14 +29,14 @@ public class AddressServiceImpl implements AddressService {
             throw new RuntimeException("Address's {city} cannot be empty");
         }
 
-
+        log.info("New Address added");
         return addressRepository.save(
                 Address
                         .builder()
                         .number(address.getNumber())
                         .street(address.getStreet())
                         .city(address.getCity())
-                        .country(address.getCountry())
+                        .addressCountry(address.getAddressCountry())
                         .build()
         );
     }

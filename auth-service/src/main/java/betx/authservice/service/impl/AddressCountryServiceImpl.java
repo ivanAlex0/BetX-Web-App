@@ -1,7 +1,7 @@
 package betx.authservice.service.impl;
 
-import betx.authservice.model.Country;
-import betx.authservice.repository.CountryRepository;
+import betx.authservice.model.AddressCountry;
+import betx.authservice.repository.AddressCountryRepository;
 import betx.authservice.service.services.CountryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,29 +13,33 @@ import java.util.Locale;
 
 @Service
 @Slf4j
-public class CountryServiceImpl implements CountryService {
+public class AddressCountryServiceImpl implements CountryService {
 
     @Autowired
-    CountryRepository countryRepository;
+    AddressCountryRepository addressCountryRepository;
 
     @Override
-    @PostConstruct
+    //@PostConstruct
     public void initCountries() {
         String[] countryCodes = Locale.getISOCountries();
-        List<Country> countries = countryRepository.findAll();
+        List<AddressCountry> countries = addressCountryRepository.findAll();
 
         if (countries.size() != countryCodes.length) {
             for (String countryCode : Locale.getISOCountries()) {
                 Locale obj = new Locale("", countryCode);
-                if (!countries.contains(Country.builder().name(obj.getDisplayCountry()).build())) {
-                    Country _country = countryRepository.save(
-                            Country.builder()
+                if (!countries.contains(AddressCountry.builder().name(obj.getDisplayCountry()).build())) {
+                    AddressCountry _Address_country = addressCountryRepository.save(
+                            AddressCountry.builder()
                                     .name(obj.getDisplayCountry())
                                     .build()
                     );
-                    log.info("New country saved with {name}=" + _country.getName());
+                    log.info("New country saved with {name}=" + _Address_country.getName());
                 }
             }
         }
+    }
+
+    public List<AddressCountry> findAll(){
+        return addressCountryRepository.findAll();
     }
 }

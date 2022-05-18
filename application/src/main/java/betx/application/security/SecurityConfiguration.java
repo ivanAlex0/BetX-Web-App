@@ -4,6 +4,7 @@ import betx.application.filter.CustomAuthenticationFilter;
 import betx.application.filter.CustomAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@ComponentScan("betx.authservice")
+@ComponentScan("betx.apiservice")
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -36,16 +39,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.cors().and().csrf().disable();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/save").permitAll();
-        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/auth").permitAll();
-
-
-        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/admin/auth").permitAll();
-        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/customer/register").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/customer//save").permitAll();
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/customer/auth").permitAll();
-        httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/admin/fetchZones").permitAll();
-        httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/customer/refreshToken").permitAll();
-        httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/admin/refreshToken").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/customer/placeBet").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/test").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/getLeague").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/addressCountries").permitAll();
 
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority("ADMIN");
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/admin/**").hasAnyAuthority("ADMIN");

@@ -1,24 +1,27 @@
-package betx.authservice.model;
+package betx.apiservice.model.api;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name = "Country")
 @Data
-@Getter
-@Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "country_gen")
-    private Long countryId;
+    private Long id;
 
     private String name;
+    private String code;
+    private String flag;
 }

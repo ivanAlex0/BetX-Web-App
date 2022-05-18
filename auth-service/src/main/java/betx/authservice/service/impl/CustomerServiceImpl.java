@@ -1,7 +1,7 @@
 package betx.authservice.service.impl;
 
 import betx.authservice.model.*;
-import betx.authservice.repository.CountryRepository;
+import betx.authservice.repository.AddressCountryRepository;
 import betx.authservice.repository.CustomerRepository;
 import betx.authservice.repository.RoleRepository;
 import betx.authservice.service.services.CustomerService;
@@ -25,38 +25,84 @@ public class CustomerServiceImpl implements CustomerService {
     AddressServiceImpl addressService;
 
     @Autowired
-    CountryRepository countryRepository;
+    AddressCountryRepository addressCountryRepository;
 
     @Autowired
     RoleRepository roleRepository;
 
+    @Autowired
+    BetServiceImpl betService;
+
+    @Autowired
+    WalletServiceImpl walletService;
+
     @Override
     public Customer save(Customer customer) {
-        if (customer.getName().isEmpty()) {
-            log.error("Customer's {name} cannot be empty");
-            throw new RuntimeException("Customer's {name} cannot be empty");
+        if (customer.getName() == null ||
+                customer.getName().isEmpty() ||
+                customer.getAddress() == null ||
+                customer.getAddress().getNumber().isEmpty() ||
+                customer.getAddress().getCity().isEmpty() ||
+                customer.getAddress().getStreet().isEmpty() ||
+                customer.getAddress().getAddressCountry() == null ||
+                customer.getAddress().getAddressCountry().getName().isEmpty() ||
+                customer.getUser().getEmail().isEmpty() ||
+                customer.getUser().getPassword().isEmpty()
+        ) {
+            log.error("Customer has missing information");
+            throw new RuntimeException("Customer has missing information");
         }
 
         ArrayList<Role> roles = new ArrayList<>() {{
             add(roleRepository.findByName("CUSTOMER"));
         }};
         customer.getUser().setRoles(roles);
-        Country _customerCountry = customer.getAddress().getCountry();
-        Country _country = countryRepository.findByName(_customerCountry.getName()).orElseThrow(
-                () -> new RuntimeException("Address's {country} wasn't found in the database" + _customerCountry.getName())
+        AddressCountry _customerAddressCountry = customer.getAddress().getAddressCountry();
+        AddressCountry _Address_country = addressCountryRepository.findByName(_customerAddressCountry.getName()).orElseThrow(
+                () -> new RuntimeException("Address's {country} wasn't found in the database" + _customerAddressCountry.getName())
         );
-        customer.getAddress().setCountry(_country);
+        customer.getAddress().setAddressCountry(_Address_country);
 
         Address _address = addressService.save(customer.getAddress());
         User _user = userService.saveUser(customer.getUser());
 
-        return customerRepository.save(
+        Customer _customer = customerRepository.save(
                 Customer
                         .builder()
                         .name(customer.getName())
                         .address(_address)
                         .user(_user)
+                        .bets(new ArrayList<>())
                         .build()
         );
+        log.info("New customer added with {name}=" + _customer.getName() + " and {email}=" + _customer.getUser().getEmail());
+        return _customer;
+    }
+
+    @Override
+    public Bet placeBet(Bet bet, Long customerId) {
+        //checks
+        if (bet.getOdds() == null || bet.getOdds().isEmpty() || bet.getAmount() == null || bet.getAmount() <= 0) {
+            log.error("Bet information is incorrect");
+            throw new RuntimeException("Bet information is incorrect");
+        }
+
+        Customer _customer = customerRepository.findById(customerId).orElseThrow(
+                () -> {
+                    log.error("No customer found for {customerId}=" + customerId);
+                    throw new RuntimeException("No customer found for {customerId}=" + customerId);
+                }
+        );
+        walletService.withdraw(_customer.getWallet(), bet.getAmount());
+        bet.setCustomer(_customer);
+
+        return betService.save(bet);
+    }
+
+    @Override
+    public Customer authenticate(User user) {
+        User _user = userService.authenticate(user);
+
+        return customerRepository.findByUser(_user);
     }
 }

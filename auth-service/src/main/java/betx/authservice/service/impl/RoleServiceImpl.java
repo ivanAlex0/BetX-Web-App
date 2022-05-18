@@ -19,7 +19,7 @@ public class RoleServiceImpl implements RoleService {
     RoleRepository roleRepository;
 
     @Override
-    @PostConstruct
+    //@PostConstruct
     public void initRoles() {
         ArrayList<String> roles = new ArrayList<>() {{
             add("CUSTOMER");

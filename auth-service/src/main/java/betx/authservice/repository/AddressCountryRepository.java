@@ -1,13 +1,13 @@
 package betx.authservice.repository;
 
-import betx.authservice.model.Country;
+import betx.authservice.model.AddressCountry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface CountryRepository extends JpaRepository<Country, Long> {
+public interface AddressCountryRepository extends JpaRepository<AddressCountry, Long> {
 
-    Optional<Country> findByName(String name);
+    Optional<AddressCountry> findByName(String name);
 }

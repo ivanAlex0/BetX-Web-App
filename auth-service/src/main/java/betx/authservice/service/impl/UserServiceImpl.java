@@ -45,13 +45,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
         try {
-            return userRepository.save(
+            User _user = userRepository.save(
                     User
                             .builder()
                             .email(user.getEmail())
                             .password(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()))
                             .roles(user.getRoles())
                             .build());
+            log.info("New user added with {email}=" + _user.getEmail());
+            return _user;
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             String error = "Duplicate entry exception for {User.email}=" + user.getEmail();
             log.error(error);
