@@ -1,5 +1,6 @@
-package betx.authservice.model;
+package betx.authservice.model.users;
 
+import betx.authservice.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

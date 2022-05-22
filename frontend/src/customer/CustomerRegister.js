@@ -90,7 +90,7 @@ function CustomerRegister() {
     function handleSubmit(event) {
         sendRegister(customer)
             .then(() => {
-                navigate("/")
+                navigate("/customer/login")
             })
             .catch(error => setError(error.response.data.message))
         event.preventDefault()

@@ -1,5 +1,6 @@
 package betx.authservice.model;
 
+import betx.authservice.model.users.Customer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -19,7 +20,8 @@ public class Wallet {
 
     private Double balance;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 }

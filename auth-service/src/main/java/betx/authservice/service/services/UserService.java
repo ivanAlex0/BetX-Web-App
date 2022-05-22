@@ -1,6 +1,6 @@
 package betx.authservice.service.services;
 
-import betx.authservice.model.User;
+import betx.authservice.model.users.User;
 import org.springframework.stereotype.Service;
 
 @Service

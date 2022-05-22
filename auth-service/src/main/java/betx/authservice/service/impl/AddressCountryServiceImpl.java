@@ -18,8 +18,11 @@ public class AddressCountryServiceImpl implements CountryService {
     @Autowired
     AddressCountryRepository addressCountryRepository;
 
+    /**
+     * Initializes the countries table in the DB
+     */
     @Override
-    //@PostConstruct
+    @PostConstruct
     public void initCountries() {
         String[] countryCodes = Locale.getISOCountries();
         List<AddressCountry> countries = addressCountryRepository.findAll();

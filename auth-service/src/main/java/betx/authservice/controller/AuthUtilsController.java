@@ -18,6 +18,11 @@ public class AuthUtilsController {
     @Autowired
     AddressCountryServiceImpl addressCountryService;
 
+    /**
+     * Endpoint that retrieves all countries from DB
+     *
+     * @return a List of AddressCountry
+     */
     @GetMapping("/addressCountries")
     public ResponseEntity<List<AddressCountry>> fetchCountries() {
         return new ResponseEntity<>(addressCountryService.findAll(), HttpStatus.OK);

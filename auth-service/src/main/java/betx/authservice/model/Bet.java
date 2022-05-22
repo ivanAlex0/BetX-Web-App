@@ -2,6 +2,7 @@ package betx.authservice.model;
 
 
 import betx.apiservice.model.Odd;
+import betx.authservice.model.users.Customer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,8 @@ public class Bet {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "bet_gen")
     private Long betId;
 
-    private Double amount;
+    private Float amount;
+    private Boolean winner;
 
     @ManyToMany
     private List<Odd> odds;

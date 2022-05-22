@@ -1,6 +1,6 @@
 package betx.authservice.service.impl;
 
-import betx.authservice.model.User;
+import betx.authservice.model.users.User;
 import betx.authservice.repository.UserRepository;
 import betx.authservice.service.Validator;
 import betx.authservice.service.services.UserService;
@@ -28,6 +28,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     Validator validator = Validator.getInstance();
 
+    /**
+     * Saves a User in the DB
+     *
+     * @param user The User to be saved
+     * @return The User instance
+     */
     @Override
     public User saveUser(User user) {
         if (user.getEmail().isEmpty()) {
@@ -61,6 +67,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
+    /**
+     * Authenticates a User
+     *
+     * @param user The User to be authenticated
+     * @return The User instance
+     */
     @Override
     public User authenticate(User user) {
         if (user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
@@ -77,6 +89,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } else throw new RuntimeException("Invalid credentials!");
     }
 
+    /**
+     * Method used by Spring security
+     *
+     * @param username The username (actuall an email in the DB)
+     * @return The UserDetails that are used in authentication
+     * @throws UsernameNotFoundException When the credentials are invalid
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User _user = userRepository.findByEmail(username).orElseThrow(

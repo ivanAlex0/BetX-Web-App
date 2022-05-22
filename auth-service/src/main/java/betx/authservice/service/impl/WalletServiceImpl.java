@@ -1,5 +1,6 @@
 package betx.authservice.service.impl;
 
+import betx.authservice.model.users.Customer;
 import betx.authservice.model.Wallet;
 import betx.authservice.repository.WalletRepository;
 import betx.authservice.service.services.WalletService;
@@ -15,6 +16,11 @@ public class WalletServiceImpl implements WalletService {
     WalletRepository walletRepository;
 
     @Override
+    public Wallet update(Wallet wallet){
+        return walletRepository.save(wallet);
+    }
+
+    @Override
     public Wallet save(Wallet wallet) {
         Wallet _wallet = walletRepository.save(
                 Wallet.builder()
@@ -27,17 +33,30 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public Wallet deposit(Wallet wallet, Double amount) {
+    public Wallet save(Customer _customer) {
+        Wallet _wallet = walletRepository.save(
+                Wallet.builder()
+                        .balance(0.0)
+                        .customer(_customer)
+                        .build()
+        );
+        log.info("New Wallet added with {wallet.walletId}=" + _wallet.getWalletId());
+        return _wallet;
+    }
+
+    @Override
+    public Wallet deposit(Wallet wallet, Float amount) {
         Wallet _wallet = walletRepository.findById(wallet.getWalletId()).orElseThrow(
                 () -> new RuntimeException("No Wallet found for {walletId}= " + wallet.getWalletId())
         );
 
         _wallet.setBalance(_wallet.getBalance() + amount);
+        log.info("Amount of " + amount + " was added to wallet {walletId}=" + _wallet.getWalletId());
         return _wallet;
     }
 
     @Override
-    public Wallet withdraw(Wallet wallet, Double amount) {
+    public Wallet withdraw(Wallet wallet, Float amount) {
         Wallet _wallet = walletRepository.findById(wallet.getWalletId()).orElseThrow(
                 () -> new RuntimeException("No Wallet found for {walletId}= " + wallet.getWalletId())
         );

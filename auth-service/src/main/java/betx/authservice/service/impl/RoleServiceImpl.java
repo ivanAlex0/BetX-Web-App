@@ -18,12 +18,16 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     RoleRepository roleRepository;
 
+    /**
+     * Initializes the Role table
+     */
     @Override
-    //@PostConstruct
+    @PostConstruct
     public void initRoles() {
         ArrayList<String> roles = new ArrayList<>() {{
             add("CUSTOMER");
             add("ADMIN");
+            add("VERIFIER");
         }};
         List<Role> rolesFromDB = roleRepository.findAll();
 

@@ -14,6 +14,12 @@ public class AddressServiceImpl implements AddressService {
     @Autowired
     AddressRepository addressRepository;
 
+    /**
+     * Saves a new Address in the DB
+     *
+     * @param address The Address to be saved
+     * @return The Address instance
+     */
     @Override
     public Address save(Address address) {
         if (address.getNumber().isEmpty()) {

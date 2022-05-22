@@ -27,7 +27,7 @@ function CustomerLogin() {
                 sendLogin(credentials)
                     .then(customerData => {
                         localStorage.setItem("customer-info", JSON.stringify(customerData))
-                        navigate("/customer/home")
+                        navigate("/customer/searchTeam")
                     })
                     .catch(() => {
                         setError("Invalid credentials")

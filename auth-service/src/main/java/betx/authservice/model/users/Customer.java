@@ -1,5 +1,8 @@
-package betx.authservice.model;
+package betx.authservice.model.users;
 
+import betx.authservice.model.Address;
+import betx.authservice.model.Bet;
+import betx.authservice.model.Wallet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +23,8 @@ public class Customer {
     private Long customerId;
 
     private String name;
+    private Boolean verified;
+    private Boolean suspended;
 
     @OneToOne
     private Address address;
@@ -30,6 +35,6 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Bet> bets;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
     private Wallet wallet;
 }

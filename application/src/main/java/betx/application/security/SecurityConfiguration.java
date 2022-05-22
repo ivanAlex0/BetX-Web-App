@@ -39,12 +39,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.cors().and().csrf().disable();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/customer//save").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "**").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "**").permitAll();
+        /*httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/customer//save").permitAll();
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/customer/auth").permitAll();
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/customer/placeBet").permitAll();
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/test").permitAll();
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/getLeague").permitAll();
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/addressCountries").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/customer/checkBets").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/customer/withdraw").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/customer/deposit").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/verifier/save").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/verifier/changeStatus").permitAll();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/verifier/auth").permitAll();*/
 
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority("ADMIN");
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/admin/**").hasAnyAuthority("ADMIN");

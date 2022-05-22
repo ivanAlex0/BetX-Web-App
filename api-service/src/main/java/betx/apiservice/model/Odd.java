@@ -1,5 +1,6 @@
 package betx.apiservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,8 +21,10 @@ public class Odd {
 
     private Float odd;
     private String oddType;
+    private Boolean winner;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "fixture_id")
     private Fixture fixture;
 }
